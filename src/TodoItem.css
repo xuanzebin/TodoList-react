@@ -1,0 +1,14 @@
+.TodoItem{
+    padding:0.5em;
+    display: flex;
+    align-items: center;
+}
+.TodoItem>.title{
+    flex-grow:1;
+    padding:0.5em;
+}
+.TodoItem >button{
+    padding:0.5em;
+    border-radius:8px;
+    outline: none;
+}

@@ -9,7 +9,24 @@ class App extends Component {
   constructor(props){
     super(props)
     this.state={
-      todoList:[],
+      todoList:[{
+        id:0,
+        title:'想阿支',
+        status:null,
+        deleted:false
+      },
+      {
+        id:2,
+        title:'想阿支',
+        status:null,
+        deleted:false
+      },
+      {
+        id:3,
+        title:'想阿支',
+        status:null,
+        deleted:false
+      }],
       newTodo:''
     }
   }
@@ -25,13 +42,13 @@ class App extends Component {
     console.log(this.state.todoList)
     return (
       <div className="App">
-         <h1>我的代办</h1>
+         <h1>阿屁一天要做的事情</h1>
          <div className="inputWrapper">
             <TodoInput content={this.state.newTodo} 
             onChange={this.changeTitle.bind(this)}
             onSubmit={this.addTodo.bind(this)} />
          </div>
-         <ol>
+         <ol className="todoList">
            {todos}
          </ol>
       </div>
@@ -69,7 +86,7 @@ class App extends Component {
 }
 
 export default App;
-let id=0
+let id=2
 function idMaker(){
   id+=1
   return id
