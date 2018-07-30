@@ -15,3 +15,9 @@
 .App>.todoList>li:nth-child(even){
   background: transparent;
 }
+@media(max-width:32em){
+  .App{
+    min-width: 200px;
+    margin:0;
+  }
+}

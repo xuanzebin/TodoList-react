@@ -55,15 +55,16 @@ class App extends Component {
       </div>
     );
   }
+  componentDidUpdate(){
+    localStore.save('todoList',this.state.todoList)
+  }
   deleted(event,todo){
     todo.deleted=true
     this.setState(this.state)
-    localStore.save('todoList',this.state.todoList)
   }
   toggle(event,todo){
     todo.status=todo.status==='completed'?'':'completed'
     this.setState(this.state)
-    localStore.save('todoList',this.state.todoList)
   }
   changeTitle(event) {
     event.persist()
@@ -84,7 +85,6 @@ class App extends Component {
       todoList:state.todoList,
       newTodo:''
     }))
-    localStore.save('todoList',this.state.todoList)
   }
 
 }
