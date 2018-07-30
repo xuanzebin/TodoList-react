@@ -2,14 +2,15 @@ import React, { Component } from 'react'
 import './App.css'
 import TodoInput from './TodoInput'
 import TodoItem from './TodoItem'
-import './reset.css'
 import 'normalize.css'
+import './reset.css'
+import * as localStore from './Localstore'
 
 class App extends Component {
   constructor(props){
     super(props)
     this.state={
-      todoList:[{
+      todoList:localStore.load('todoList')||[{
         id:0,
         title:'想阿支',
         status:null,
@@ -57,10 +58,12 @@ class App extends Component {
   deleted(event,todo){
     todo.deleted=true
     this.setState(this.state)
+    localStore.save('todoList',this.state.todoList)
   }
   toggle(event,todo){
     todo.status=todo.status==='completed'?'':'completed'
     this.setState(this.state)
+    localStore.save('todoList',this.state.todoList)
   }
   changeTitle(event) {
     event.persist()
@@ -81,6 +84,7 @@ class App extends Component {
       todoList:state.todoList,
       newTodo:''
     }))
+    localStore.save('todoList',this.state.todoList)
   }
 
 }
