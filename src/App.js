@@ -4,15 +4,14 @@ import TodoInput from './TodoInput'
 import TodoItem from './TodoItem'
 import 'normalize.css'
 import './reset.css'
-import * as localStore from './Localstore'
 import AV from './leanCloud'
-
-
+import UserDialog from './UserDialog'
+import './UserDialog.css'
 class App extends Component {
   constructor(props){
     super(props)
     this.state={
-      todoList:localStore.load('todoList')||[{
+      todoList:[{
         id:0,
         title:'想阿支',
         status:null,
@@ -54,11 +53,12 @@ class App extends Component {
          <ol className="todoList">
            {todos}
          </ol>
+         <UserDialog />
       </div>
     );
   }
   componentDidUpdate(){
-    localStore.save('todoList',this.state.todoList)
+    // localStore.save('todoList',this.state.todoList)
   }
   deleted(event,todo){
     todo.deleted=true
