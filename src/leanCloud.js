@@ -18,7 +18,7 @@ export function signUp(userName,passWord,mail,successFn,errorFn){
   user.signUp().then(function (loggedInUser) {
       let user=getUserForm(loggedInUser)
       alert('注册成功')
-      successFn.call(null,user)
+      successFn.call(null,user) 
   }, function (error) {
     alert('注册失败')
       errorFn.call(null,error)
