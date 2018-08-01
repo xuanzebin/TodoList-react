@@ -1,5 +1,6 @@
 import React,{Component} from 'react'
 import {signUp,signIn} from './leanCloud'
+import './UserDialog.css'
 export default class UserDialog extends Component{
     constructor(props){
         super(props)
@@ -18,8 +19,22 @@ export default class UserDialog extends Component{
         let success=(user)=>{
             this.props.onSignUpOrOnSignIn.call(null,user)
         }
-        let error=(error)=>{
-            console.log(error)
+        let error=(error)=>{ 
+            switch(error.code){
+                case 202:
+                alert('用户名已被占用')
+                break
+                case 125:
+                alert('请输入正确的邮箱地址')
+                break
+                case 200:
+                alert('没有提供用户名，或者用户名为空')
+                break
+                default:
+                alert(error)
+                alert(error.code)
+                break
+            }
         }
         signUp(userName,passWord,Email,success,error)
     }
@@ -30,12 +45,23 @@ export default class UserDialog extends Component{
             this.props.onSignUpOrOnSignIn.call(null,user)
         }
         let error=(error)=>{
-            console.log(error)
+            switch(error.code){
+                case 210:
+                alert('用户名与密码不匹配')
+                break
+                case 211:
+                alert('该用户名未注册')
+                break 
+                default:
+                alert(error)
+                alert(error.code)
+                break
+            }
         }
         signIn(userName,passWord,success,error)
     }
     changeFormDate(key,event){
-        let stateCopy=JSON.parse(JSON.stringify(this.state))
+        let stateCopy=copyState(this.state)
         stateCopy.formDate[key]=event.target.value
         this.setState(stateCopy)
     }
@@ -95,4 +121,8 @@ export default class UserDialog extends Component{
         </div>
         )
     }
+}
+
+function copyState(state){
+    return JSON.parse(JSON.stringify(state))
 }

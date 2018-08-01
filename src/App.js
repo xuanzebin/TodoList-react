@@ -5,7 +5,6 @@ import TodoItem from './TodoItem'
 import 'normalize.css'
 import './reset.css'
 import UserDialog from './UserDialog'
-import './UserDialog.css'
 import {getCurrentUser,signOut} from './leanCloud'
 class App extends Component {
   constructor(props){
@@ -61,12 +60,12 @@ class App extends Component {
   }
   toSignOut(event){
     signOut()
-    let stateCopy=JSON.parse(JSON.stringify(this.state))
+    let stateCopy=copyState(this.state)
     stateCopy.user={}
     this.setState(stateCopy)
   }
   onSignUpOrOnSignIn(user){
-    let stateCopy=JSON.parse(JSON.stringify(this.state))
+    let stateCopy=copyState(this.state)
     stateCopy.user=user
     this.setState(stateCopy)
   }
@@ -106,4 +105,7 @@ let id=2
 function idMaker(){
   id+=1
   return id
+}
+function copyState(state){
+    return JSON.parse(JSON.stringify(state))
 }

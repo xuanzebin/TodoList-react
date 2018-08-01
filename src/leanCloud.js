@@ -7,29 +7,40 @@ AV.init({
 });
 
 export default AV
-export function signUp(userName,passWord,mail,successFn,errorFn){
+export function signUp(userName,passWord,Email,successFn,errorFn){
   var user = new AV.User();
-  // 设置用户名
-  user.setUsername(userName);
-  // 设置密码
-  user.setPassword(passWord);
-  // 设置邮箱
-  user.setEmail(mail);
-  user.signUp().then(function (loggedInUser) {
-      let user=getUserForm(loggedInUser)
-      alert('注册成功')
-      successFn.call(null,user) 
+  // if (!userName) {
+  //   alert('没有提供用户名，或者用户名为空')
+  // } else if (!passWord) {
+  //   alert('没有提供密码，或者密码为空')
+  // } else {
+    user.setUsername(userName);
+    user.setPassword(passWord);
+    user.setEmail(Email);
+    user.signUp().then(function (loggedInUser) {
+        let user=getUserForm(loggedInUser)
+        alert('注册成功')
+        successFn.call(null,user) 
+    }, function (error) {
+        errorFn.call(null,error)
+        alert('注册失败')
+    })
+    return undefined
+  // }
+}
+export function signIn(userName,passWord,successFn,errorFn){
+  AV.User.logIn(userName, passWord).then(function (loggedInUser) {
+    let user=getUserForm(loggedInUser)
+    alert('登录成功')
+    successFn.call(null,user) 
+    return getUserForm(loggedInUser)
   }, function (error) {
-    alert('注册失败')
       errorFn.call(null,error)
   });
 }
-function getUserForm(AVUser) {
-  return {
-    id:AVUser.id,
-    userName:AVUser.attributes.username,
-    Email:AVUser.attributes.email
-  }
+export function signOut(){
+  AV.User.logOut()
+  return undefined
 }
 export function getCurrentUser(){
   var currentUser = AV.User.current();
@@ -40,19 +51,15 @@ export function getCurrentUser(){
     return null;
   }
 }
-export function signOut(){
-  AV.User.logOut()
-  return undefined
-}
-export function signIn(userName,passWord,successFn,errorFn){
-  AV.User.logIn(userName, passWord).then(function (loggedInUser) {
-    let user=getUserForm(loggedInUser)
-    alert('登录成功')
-    successFn.call(null,user) 
-    return getUserForm(loggedInUser)
-    console.log(loggedInUser);
-  }, function (error) {
-      alert('登录失败')
-      errorFn.call(null,error)
-  });
+
+
+
+
+
+function getUserForm(AVUser) {
+  return {
+    id:AVUser.id,
+    userName:AVUser.attributes.username,
+    Email:AVUser.attributes.email
+  }
 }
