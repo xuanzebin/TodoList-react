@@ -44,3 +44,15 @@ export function signOut(){
   AV.User.logOut()
   return undefined
 }
+export function signIn(userName,passWord,successFn,errorFn){
+  AV.User.logIn(userName, passWord).then(function (loggedInUser) {
+    let user=getUserForm(loggedInUser)
+    alert('登录成功')
+    successFn.call(null,user) 
+    return getUserForm(loggedInUser)
+    console.log(loggedInUser);
+  }, function (error) {
+      alert('登录失败')
+      errorFn.call(null,error)
+  });
+}
