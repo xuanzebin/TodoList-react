@@ -8,25 +8,23 @@ AV.init({
 
 export default AV
 export function signUp(userName,passWord,Email,successFn,errorFn){
-  var user = new AV.User();
-  // if (!userName) {
-  //   alert('没有提供用户名，或者用户名为空')
-  // } else if (!passWord) {
-  //   alert('没有提供密码，或者密码为空')
-  // } else {
-    user.setUsername(userName);
-    user.setPassword(passWord);
-    user.setEmail(Email);
+  var user = new AV.User()
+  if (!userName) {
+    alert('没有提供用户名，或者用户名为空')
+  } else if (!passWord) {
+    alert('没有提供密码，或者密码为空')
+  } else {
+    user.setUsername(userName)
+    user.setPassword(passWord)
+    user.setEmail(Email)
     user.signUp().then(function (loggedInUser) {
         let user=getUserForm(loggedInUser)
-        alert('注册成功')
         successFn.call(null,user) 
-    }, function (error) {
+    },function (error) {
         errorFn.call(null,error)
-        alert('注册失败')
     })
     return undefined
-  // }
+  }
 }
 export function signIn(userName,passWord,successFn,errorFn){
   AV.User.logIn(userName, passWord).then(function (loggedInUser) {

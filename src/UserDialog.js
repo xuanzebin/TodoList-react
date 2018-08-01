@@ -46,6 +46,9 @@ export default class UserDialog extends Component{
         }
         let error=(error)=>{
             switch(error.code){
+                case 502:
+                alert('服务器维护中')
+                break
                 case 210:
                 alert('用户名与密码不匹配')
                 break
