@@ -7,3 +7,27 @@ AV.init({
 });
 
 export default AV
+export function signUp(userName,passWord,mail,successFn,errorFn){
+  var user = new AV.User();
+  // 设置用户名
+  user.setUsername(userName);
+  // 设置密码
+  user.setPassword(passWord);
+  // 设置邮箱
+  user.setEmail(mail);
+  user.signUp().then(function (loggedInUser) {
+      let user=getUserForm(loggedInUser)
+      alert('注册成功')
+      successFn.call(null,user)
+  }, function (error) {
+    alert('注册失败')
+      errorFn.call(null,error)
+  });
+}
+function getUserForm(AVUser) {
+  return {
+    id:AVUser.id,
+    userName:AVUser.attributes.username,
+    Email:AVUser.attributes.email
+  }
+}

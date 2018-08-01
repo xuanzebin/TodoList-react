@@ -1,10 +1,33 @@
 import React,{Component} from 'react'
+import {signUp} from './leanCloud'
 export default class UserDialog extends Component{
     constructor(props){
         super(props)
         this.state={
-            selected:'signUp'
+            selected:'signUp',
+            formDate:{
+                userName:'',
+                passWord:'',
+                mail:''
+            }
         }
+    }
+    toSignUp(e){
+        e.preventDefault()
+        let {userName,passWord,mail}=this.state.formDate
+        let success=(user)=>{
+            console.log(user)
+        }
+        let error=(error)=>{
+            console.log(error)
+        }
+        signUp(userName,passWord,mail,success,error)
+    }
+    toSignIn(e){}
+    changeFormDate(key,event){
+        let stateCopy=JSON.parse(JSON.stringify(this.state))
+        stateCopy.formDate[key]=event.target.value
+        this.setState(stateCopy)
     }
     switch(e){
         e.persist()
@@ -14,15 +37,18 @@ export default class UserDialog extends Component{
     }
     render(){
         let signUpForm=(
-            <form className="signUp">
+            <form className="signUp" onSubmit={this.toSignUp.bind(this)}>
                 <div className="row">
-                    <label>邮箱<input type="text"/></label>
+                    <label>邮箱<input type="text" value={this.state.formDate.mail}
+                    onChange={this.changeFormDate.bind(this,'mail')}/></label>
                 </div>
                 <div className="row">
-                    <label>用户名<input type="text"/></label>
+                    <label>用户名<input type="text" value={this.state.formDate.userName}
+                    onChange={this.changeFormDate.bind(this,'userName')}/></label>
                 </div>
                 <div className="row">
-                    <label>密码<input type="password"/></label>
+                    <label>密码<input type="password" value={this.state.formDate.passWord}
+                    onChange={this.changeFormDate.bind(this,'passWord')}/></label>
                 </div>
                 <div className="row actions">
                     <button type="submit">注册</button>
@@ -30,12 +56,14 @@ export default class UserDialog extends Component{
             </form>
         )
         let signInForm=(
-            <form className="signIn">
+            <form className="signIn" onSubmit={this.toSignIn.bind(this)}>
                 <div className="row">
-                    <label>用户名<input type="text"/></label>
+                    <label>用户名<input type="text" value={this.state.formDate.userName}
+                    onChange={this.changeFormDate.bind(this,'userName')}/></label>
                 </div>
                 <div className="row">
-                    <label>密码<input type="password"/></label>
+                    <label>密码<input type="password" value={this.state.formDate.passWord}
+                    onChange={this.changeFormDate.bind(this,'passWord')}/></label>
                 </div>
                 <div className="row actions">
                     <button type="submit">登录</button>
