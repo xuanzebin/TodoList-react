@@ -1,39 +1,57 @@
 import React,{Component} from 'react'
 export default class UserDialog extends Component{
+    constructor(props){
+        super(props)
+        this.state={
+            selected:'signUp'
+        }
+    }
+    switch(e){
+        e.persist()
+        this.setState((state,props)=>({
+            selected:e.target.value
+        }))
+    }
     render(){
+        let signUpForm=(
+            <form className="signUp">
+                <div className="row">
+                    <label>邮箱<input type="text"/></label>
+                </div>
+                <div className="row">
+                    <label>用户名<input type="text"/></label>
+                </div>
+                <div className="row">
+                    <label>密码<input type="password"/></label>
+                </div>
+                <div className="row actions">
+                    <button type="submit">注册</button>
+                </div>
+            </form>
+        )
+        let signInForm=(
+            <form className="signIn">
+                <div className="row">
+                    <label>用户名<input type="text"/></label>
+                </div>
+                <div className="row">
+                    <label>密码<input type="password"/></label>
+                </div>
+                <div className="row actions">
+                    <button type="submit">登录</button>
+                </div>
+            </form>
+        )
         return(
         <div className="UserDialog-Wrapper">
             <div className="UserDialog">
-                <nav>
-                    <input type="radio"/>注册
-                    <input type="radio"/>登录
+                <nav onChange={this.switch.bind(this)}>
+                    <label><input type="radio" value="signUp" checked={this.state.selected==='signUp'}/>注册</label>
+                    <label><input type="radio" value="signIn" checked={this.state.selected==='signIn'}/>登录</label>
                 </nav>
                 <div className="panes">
-                    <form className="signUp">
-                        <div className="row">
-                            <label>邮箱<input type="text"/></label>
-                        </div>
-                        <div className="row">
-                            <label>用户名<input type="text"/></label>
-                        </div>
-                        <div className="row">
-                            <label>密码<input type="password"/></label>
-                        </div>
-                        <div className="row actions">
-                            <button type="submit">注册</button>
-                        </div>
-                    </form>
-                    <form className="signIn">
-                        <div className="row">
-                            <label>用户名<input type="text"/></label>
-                        </div>
-                        <div className="row">
-                            <label>密码<input type="password"/></label>
-                        </div>
-                        <div className="row">
-                            <button type="submit">登录</button>
-                        </div>
-                    </form>
+                    {this.state.selected==='signUp'?signUpForm:null}
+                    {this.state.selected==='signIn'?signInForm:null}
                 </div>
             </div>
         </div>
