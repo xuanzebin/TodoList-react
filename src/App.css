@@ -9,6 +9,9 @@
   min-width:32em;
   box-shadow: 0 0 1em hsla(0,0%,0%,0.15);
 }
+.App>h1>button{
+  font-size: 16px;
+}
 .App>.todoList>li:nth-child(odd){
   background: #eee;
 }

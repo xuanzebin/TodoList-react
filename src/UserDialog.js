@@ -8,20 +8,20 @@ export default class UserDialog extends Component{
             formDate:{
                 userName:'',
                 passWord:'',
-                mail:''
+                Email:''
             }
         }
     }
     toSignUp(e){
         e.preventDefault()
-        let {userName,passWord,mail}=this.state.formDate
+        let {userName,passWord,Email}=this.state.formDate
         let success=(user)=>{
             this.props.onSignUp.call(null,user)
         }
         let error=(error)=>{
             console.log(error)
         }
-        signUp(userName,passWord,mail,success,error)
+        signUp(userName,passWord,Email,success,error)
     }
     toSignIn(e){}
     changeFormDate(key,event){
@@ -40,7 +40,7 @@ export default class UserDialog extends Component{
             <form className="signUp" onSubmit={this.toSignUp.bind(this)}>
                 <div className="row">
                     <label>邮箱<input type="text" value={this.state.formDate.mail}
-                    onChange={this.changeFormDate.bind(this,'mail')}/></label>
+                    onChange={this.changeFormDate.bind(this,'Email')}/></label>
                 </div>
                 <div className="row">
                     <label>用户名<input type="text" value={this.state.formDate.userName}

@@ -6,11 +6,12 @@ import 'normalize.css'
 import './reset.css'
 import UserDialog from './UserDialog'
 import './UserDialog.css'
+import {getCurrentUser,signOut} from './leanCloud'
 class App extends Component {
   constructor(props){
     super(props)
     this.state={
-      user:{},
+      user:getCurrentUser()||{},
       todoList:[{
         id:0,
         title:'想阿支',
@@ -44,7 +45,8 @@ class App extends Component {
     console.log(this.state)
     return (
       <div className="App">
-         <h1>{this.state.user.userName||'阿屁'}一天要做的事情</h1>
+         <h1>{this.state.user.userName||'阿屁'}一天要做的事情 {this.state.user?<button onClick={this.toSignOut.bind(this)}>登出</button>:null}</h1>
+         
          <div className="inputWrapper">
             <TodoInput content={this.state.newTodo} 
             onChange={this.changeTitle.bind(this)}
@@ -53,9 +55,15 @@ class App extends Component {
          <ol className="todoList">
            {todos}
          </ol>
-         <UserDialog onSignUp={this.onSignUp.bind(this)}/>
+         {this.state.user.id ? null:<UserDialog onSignUp={this.onSignUp.bind(this)}/>}
       </div>
     );
+  }
+  toSignOut(event){
+    signOut()
+    let stateCopy=JSON.parse(JSON.stringify(this.state))
+    stateCopy.user={}
+    this.setState(stateCopy)
   }
   onSignUp(user){
     let stateCopy=JSON.parse(JSON.stringify(this.state))

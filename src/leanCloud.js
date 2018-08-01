@@ -31,3 +31,16 @@ function getUserForm(AVUser) {
     Email:AVUser.attributes.email
   }
 }
+export function getCurrentUser(){
+  var currentUser = AV.User.current();
+  if (currentUser) {
+     return getUserForm(currentUser)
+  }
+  else {
+    return null;
+  }
+}
+export function signOut(){
+  AV.User.logOut()
+  return undefined
+}
