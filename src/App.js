@@ -13,19 +13,19 @@ class App extends Component {
       user:getCurrentUser()||{},
       todoList:[{
         id:0,
-        title:'想阿支',
+        title:'吃饭',
         status:null,
         deleted:false
       },
       {
         id:2,
-        title:'想阿支',
+        title:'洗脸',
         status:null,
         deleted:false
       },
       {
         id:3,
-        title:'想阿支',
+        title:'睡觉',
         status:null,
         deleted:false
       }],
