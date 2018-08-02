@@ -13,4 +13,5 @@ ul,ol,dl{
 a{
     color:inherit;
     text-decoration: none;
+    cursor: pointer;
 }

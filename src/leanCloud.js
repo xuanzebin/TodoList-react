@@ -50,7 +50,15 @@ export function getCurrentUser(){
   }
 }
 
-
+export function findPassWord(Email){
+  AV.User.requestPasswordReset(Email).then(function (success) {
+    alert('已发送重置密码的邮件至邮箱，请查收！~')
+  }, function (error) {
+    console.log(error)
+    alert(error)
+    alert('发生未知错误，重置密码失败，请检查用户邮箱是否正确并重新尝试')
+  });
+}
 
 
 

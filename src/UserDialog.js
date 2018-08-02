@@ -1,11 +1,14 @@
 import React,{Component} from 'react'
-import {signUp,signIn} from './leanCloud'
+import {findPassWord} from './leanCloud'
 import './UserDialog.css'
+import SignInOrSignOut from './SignInOrSignOut'
+import ResetPassWord from './ResetPassWord'
+import {signUp,signIn} from './leanCloud'
 export default class UserDialog extends Component{
     constructor(props){
         super(props)
         this.state={
-            selected:'signUp',
+            selected:'signInOrSignUp',
             formDate:{
                 userName:'',
                 passWord:'',
@@ -74,54 +77,36 @@ export default class UserDialog extends Component{
             selected:e.target.value
         }))
     }
+    resetSwitch(e){
+        e.preventDefault()
+        e.persist()
+        this.setState((state,props)=>({
+            selected:e.target.attributes[0].value
+        }))
+    }
+    toReset(e){
+        e.persist()
+        console.log(this.state.formDate.Email)
+        findPassWord(this.state.formDate.Email)
+    }
     render(){
-        let signUpForm=(
-            <form className="signUp" onSubmit={this.toSignUp.bind(this)}>
-                <div className="row">
-                    <label>邮箱<input type="text" value={this.state.formDate.mail}
-                    onChange={this.changeFormDate.bind(this,'Email')}/></label>
-                </div>
-                <div className="row">
-                    <label>用户名<input type="text" value={this.state.formDate.userName}
-                    onChange={this.changeFormDate.bind(this,'userName')}/></label>
-                </div>
-                <div className="row">
-                    <label>密码<input type="password" value={this.state.formDate.passWord}
-                    onChange={this.changeFormDate.bind(this,'passWord')}/></label>
-                </div>
-                <div className="row actions">
-                    <button type="submit">注册</button>
-                </div>
-            </form>
-        )
-        let signInForm=(
-            <form className="signIn" onSubmit={this.toSignIn.bind(this)}>
-                <div className="row">
-                    <label>用户名<input type="text" value={this.state.formDate.userName}
-                    onChange={this.changeFormDate.bind(this,'userName')}/></label>
-                </div>
-                <div className="row">
-                    <label>密码<input type="password" value={this.state.formDate.passWord}
-                    onChange={this.changeFormDate.bind(this,'passWord')}/></label>
-                </div>
-                <div className="row actions">
-                    <button type="submit">登录</button>
-                </div>
-            </form>
-        )
         return(
-        <div className="UserDialog-Wrapper">
-            <div className="UserDialog">
-                <nav>
-                    <label><input type="radio" value="signUp" onChange={this.switch.bind(this)} checked={this.state.selected==='signUp'}/>注册</label>
-                    <label><input type="radio" value="signIn" onChange={this.switch.bind(this)} checked={this.state.selected==='signIn'}/>登录</label>
-                </nav>
-                <div className="panes">
-                    {this.state.selected==='signUp'?signUpForm:null}
-                    {this.state.selected==='signIn'?signInForm:null}
+            <div className="UserDialog-Wrapper">
+                <div className="UserDialog">
+                    {this.state.selected==='toReset'?
+                    <ResetPassWord onSubmit={this.toReset.bind(this)}
+                    resetSwitch={this.resetSwitch.bind(this)}
+                    formDate={this.state.formDate}
+                    changeFormDate={this.changeFormDate.bind(this)}/>:
+                    <SignInOrSignOut switch={this.switch.bind(this)}
+                    selected={this.state.selected}
+                    resetSwitch={this.resetSwitch.bind(this)}
+                    formDate={this.state.formDate}
+                    changeFormDate={this.changeFormDate.bind(this)}
+                    toSignUp={this.toSignUp.bind(this)}
+                    toSignIn={this.toSignIn.bind(this)} />}
                 </div>
             </div>
-        </div>
         )
     }
 }
