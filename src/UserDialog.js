@@ -46,6 +46,7 @@ export default class UserDialog extends Component{
         let {userName,passWord}=this.state.formDate
         let success=(user)=>{
             this.props.onSignUpOrOnSignIn.call(null,user)
+            this.props.loadUserList.call(null)
         }
         let error=(error)=>{
             switch(error.code){

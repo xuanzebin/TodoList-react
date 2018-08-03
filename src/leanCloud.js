@@ -8,7 +8,7 @@ AV.init({
 
 export default AV
 export function signUp(userName,passWord,Email,successFn,errorFn){
-  var user = new AV.User()
+  let user = new AV.User()
   if (!userName) {
     alert('没有提供用户名，或者用户名为空')
   } else if (!passWord) {
@@ -41,7 +41,7 @@ export function signOut(){
   return undefined
 }
 export function getCurrentUser(){
-  var currentUser = AV.User.current();
+  let currentUser = AV.User.current();
   if (currentUser) {
      return getUserForm(currentUser)
   }
@@ -60,8 +60,43 @@ export function findPassWord(Email){
   });
 }
 
-
-
+export const TodoModel={
+  SaveData(userList,{title,status,deleted},successFn){
+    let TodoFolder = AV.Object.extend(userList);
+    let todoFolder = new TodoFolder();
+    todoFolder.set('title',title);
+    todoFolder.set('status',status);
+    todoFolder.set('deleted',deleted);
+    todoFolder.save().then(function (todo) {
+      successFn.call(null,todo.id)
+      console.log('保存成功')
+    }, function (error) {
+      console.log('保存失败')
+      console.log(error)
+    });
+  },
+  ModifyData(userList,id,key,value){
+    let todo = AV.Object.createWithoutData(userList, id);
+    todo.set(key, value);
+    todo.save();
+  },
+  FetchData(userName,successFn){ 
+    let query = new AV.Query(userName);
+    query.find().then(function (todo) {
+      let array=todo.map((item)=>{
+        return {
+          id:item.id,
+          status:item.attributes.status,
+          deleted:item.attributes.deleted,
+          title:item.attributes.title
+        }
+      })
+      successFn.call(null,array)
+    }, function (error) {
+      console.log(error)
+    });
+  }
+}
 function getUserForm(AVUser) {
   return {
     id:AVUser.id,

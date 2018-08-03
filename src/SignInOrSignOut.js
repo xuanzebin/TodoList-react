@@ -36,6 +36,3 @@ export default class SignInOrSignOut extends Component{
         )
     }
 }
-function copyState(state){
-    return JSON.parse(JSON.stringify(state))
-}

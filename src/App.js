@@ -5,31 +5,23 @@ import TodoItem from './TodoItem'
 import 'normalize.css'
 import './reset.css'
 import UserDialog from './UserDialog'
-import {getCurrentUser,signOut} from './leanCloud'
+import {getCurrentUser, signOut, TodoModel} from './leanCloud'
 class App extends Component {
   constructor(props){
+    let getUser=getCurrentUser()
     super(props)
     this.state={
-      user:getCurrentUser()||{},
-      todoList:[{
-        id:0,
-        title:'吃饭',
-        status:null,
-        deleted:false
-      },
-      {
-        id:2,
-        title:'洗脸',
-        status:null,
-        deleted:false
-      },
-      {
-        id:3,
-        title:'睡觉',
-        status:null,
-        deleted:false
-      }],
+      user:getUser||{},
+      todoList:[],
       newTodo:''
+    }
+    if (getUser) {
+      TodoModel.FetchData(encodeUnicode(getUser['userName']),(array)=>{
+        // todoList
+        let stateCopy=copyState(this.state)
+        stateCopy.todoList=array
+        this.setState(stateCopy)
+      })
     }
   }
   render() {
@@ -52,14 +44,28 @@ class App extends Component {
          <ol className="todoList">
            {todos}
          </ol>
-         {this.state.user.id ? null:<UserDialog onSignUpOrOnSignIn={this.onSignUpOrOnSignIn.bind(this)}/>}
+         {this.state.user.id ? null:<UserDialog onSignUpOrOnSignIn={this.onSignUpOrOnSignIn.bind(this)}
+         loadUserList={this.loadUserList.bind(this)}/>}
       </div>
     );
+  }
+  loadUserList(){
+    let getUser=getCurrentUser()
+    if (getUser) {
+      console.log(encodeUnicode(getUser['userName']))
+      TodoModel.FetchData(encodeUnicode(getUser['userName']),(array)=>{
+        let stateCopy=copyState(this.state)
+        stateCopy.todoList=array
+        console.log(stateCopy.todoList)
+        this.setState(stateCopy)
+      })
+    }
   }
   toSignOut(event){
     signOut()
     let stateCopy=copyState(this.state)
     stateCopy.user={}
+    stateCopy.todoList=[]
     this.setState(stateCopy)
   }
   onSignUpOrOnSignIn(user){
@@ -68,12 +74,20 @@ class App extends Component {
     this.setState(stateCopy)
   }
   deleted(event,todo){
+    let user=getCurrentUser()
+    let userName=encodeUnicode(user['userName']) 
     todo.deleted=true
     this.setState(this.state)
+    console.log(userName)
+    console.log(todo.id)
+    TodoModel.ModifyData(userName,todo.id,'deleted',true)
   }
   toggle(event,todo){
+    let user=getCurrentUser()
+    let userName=encodeUnicode(user['userName']) 
     todo.status=todo.status==='completed'?'':'completed'
     this.setState(this.state)
+    TodoModel.ModifyData(userName,todo.objectId,'status','completed')
   }
   changeTitle(event) {
     event.persist()
@@ -82,28 +96,37 @@ class App extends Component {
       newTodo:event.target.value,
       todoList:state.todoList
     }))
+
   }
   addTodo(event){
-    this.state.todoList.push({
-      id:idMaker(),
+    let options={
       title:event.target.value,
       status:null,
       deleted:false
+    }
+    let user=getCurrentUser()
+    let userName=encodeUnicode(user['userName']) 
+    TodoModel.SaveData(userName,options,(id)=>{
+      options.id=id
+      console.log(id)
+      console.log(options)
     })
+    this.state.todoList.push(options)
     this.setState((state,props)=>({
       todoList:state.todoList,
       newTodo:''
     }))
   }
-
 }
 
 export default App;
-let id=2
-function idMaker(){
-  id+=1
-  return id
-}
 function copyState(state){
     return JSON.parse(JSON.stringify(state))
+}
+function encodeUnicode(str) {
+  var res = [];
+  for ( var i=0; i<str.length; i++ ) {
+    res[i] = ( "00" + str.charCodeAt(i).toString(16) ).slice(-4);
+  }
+  return 'user'+res.join("space");
 }
