@@ -9,18 +9,60 @@
   min-width:32em;
   box-shadow: 0 0 1em hsla(0,0%,0%,0.15);
 }
-.App>h1>button{
+.App>h2{
+  color:#FEDCAC;
+  margin:20px;
+}
+.App>h2>button{
   font-size: 16px;
+  border:none;
+}
+.App>h2>button .individuaCenter{
+  position: fixed;
+  top:35px;
+  right:20px;
+  width:22px;
+  border:2px #E44E4D solid;
+}
+.App>h2>button .individuaCenter::before{
+  content:'';
+  display: block;
+  position:absolute;
+  margin-right:-2px;
+  right:0;
+  top:-11px;
+  width:28px;
+  border:2px #E44E4D solid;
+}
+.App>h2>button .individuaCenter::after{
+  content:'';
+  display: block;
+  position:absolute;
+  margin-right:-2px;
+  right:0;
+  top:7px;
+  width:28px;
+  border:2px #E44E4D solid;
 }
 .App>.todoList>li:nth-child(odd){
-  background: #eee;
+  background: #FFFFFF;
 }
 .App>.todoList>li:nth-child(even){
-  background: transparent;
+  background: #F5F1F0;
 }
-@media(max-width:32em){
+.App .foreWord{
+  background: #EA5050;
+  color:#F7B994;
+  text-align: center;
+  line-height:35px;
+  border-radius:3px 3px 0 0;
+  font-weight:bold;
+}
+@media(max-width:414px){
   .App{
     min-width: 200px;
+    width:100%;
     margin:0;
+    background: #602A41;
   }
 }

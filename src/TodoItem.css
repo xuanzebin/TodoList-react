@@ -3,12 +3,24 @@
     display: flex;
     align-items: center;
 }
+.TodoItem input{
+    width:22px;
+    height:22px;
+}
 .TodoItem>.title{
     flex-grow:1;
     padding:0.5em;
+    color:#7F6F7C;
+    font-weight:bold;
+    font-size:20px;
 }
 .TodoItem >button{
     padding:0.5em;
-    border-radius:8px;
+    font-size: 16px;
+    border-radius:80%/70%;
     outline: none;
+    border:none;
+    background: #EA5050;
+    color:#FFFDFE;
+    box-shadow: 0 0 0.3em rgba(131, 35, 35, 0.849);
 }

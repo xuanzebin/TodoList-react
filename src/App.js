@@ -98,13 +98,14 @@ class App extends Component {
     })
     return (
       <div className="App">
-         <h1>{this.state.user.userName||'我'}的待办小白板 {this.state.user?<button onClick={this.toSignOut.bind(this)}>登出</button>:null}</h1>
-         
+         <h2>{this.state.user.userName||'我'}的待办小白板 {this.state.user?
+         <button onClick={this.toSignOut.bind(this)}><div className="individuaCenter"></div></button>:null}</h2>
          <div className="inputWrapper">
             <TodoInput content={this.state.newTodo} 
             onChange={this.changeTitle.bind(this)}
             onSubmit={this.addTodo.bind(this)} />
          </div>
+         <div className="foreWord">LET'S GET SHIT DONE!</div>
          <ol className="todoList">
            {todos}
          </ol>
