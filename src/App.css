@@ -7,6 +7,7 @@
   padding:0 1em;
   min-height:20em;
   min-width:32em;
+  background: #602A41;
   box-shadow: 0 0 1em hsla(0,0%,0%,0.15);
 }
 .App>h2{
@@ -63,6 +64,5 @@
     min-width: 200px;
     width:100%;
     margin:0;
-    background: #602A41;
   }
 }

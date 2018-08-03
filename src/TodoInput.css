@@ -1,7 +1,19 @@
-.TodoInput{
-    width:100%;
+.InputForm .TodoInput{
+    width:75%;
     line-height:1.8;
     margin-bottom:1em;
     font-size:16px;
     padding:0.2em;
+}
+.InputForm button{
+    margin-left:20px;
+    align-items: middle;
+    border:none;
+    outline:none;
+    border-radius:3px;
+    padding:10px 5px;
+    font-size:20px;
+    color:white;
+    font-weight:bold;
+    background: #EA5050;
 }
