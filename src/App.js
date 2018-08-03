@@ -17,37 +17,11 @@ class App extends Component {
     }
     if (getUser) {
       TodoModel.FetchData(encodeUnicode(getUser['userName']),(array)=>{
-        // todoList
         let stateCopy=copyState(this.state)
         stateCopy.todoList=array
         this.setState(stateCopy)
       })
     }
-  }
-  render() {
-    let todos=this.state.todoList.filter((item,index)=>{return !item.deleted}).map((item,index)=>{
-      return (
-        <li key={index}>
-          <TodoItem todo={item} onToggle={this.toggle.bind(this)} onDeleted={this.deleted.bind(this)}/>
-        </li>
-      )
-    })
-    return (
-      <div className="App">
-         <h1>{this.state.user.userName||'阿屁'}一天要做的事情 {this.state.user?<button onClick={this.toSignOut.bind(this)}>登出</button>:null}</h1>
-         
-         <div className="inputWrapper">
-            <TodoInput content={this.state.newTodo} 
-            onChange={this.changeTitle.bind(this)}
-            onSubmit={this.addTodo.bind(this)} />
-         </div>
-         <ol className="todoList">
-           {todos}
-         </ol>
-         {this.state.user.id ? null:<UserDialog onSignUpOrOnSignIn={this.onSignUpOrOnSignIn.bind(this)}
-         loadUserList={this.loadUserList.bind(this)}/>}
-      </div>
-    );
   }
   loadUserList(){
     let getUser=getCurrentUser()
@@ -56,7 +30,6 @@ class App extends Component {
       TodoModel.FetchData(encodeUnicode(getUser['userName']),(array)=>{
         let stateCopy=copyState(this.state)
         stateCopy.todoList=array
-        console.log(stateCopy.todoList)
         this.setState(stateCopy)
       })
     }
@@ -78,8 +51,6 @@ class App extends Component {
     let userName=encodeUnicode(user['userName']) 
     todo.deleted=true
     this.setState(this.state)
-    console.log(userName)
-    console.log(todo.id)
     TodoModel.ModifyData(userName,todo.id,'deleted',true)
   }
   toggle(event,todo){
@@ -87,7 +58,7 @@ class App extends Component {
     let userName=encodeUnicode(user['userName']) 
     todo.status=todo.status==='completed'?'':'completed'
     this.setState(this.state)
-    TodoModel.ModifyData(userName,todo.objectId,'status','completed')
+    TodoModel.ModifyData(userName,todo.id,'status',todo.status)
   }
   changeTitle(event) {
     event.persist()
@@ -101,7 +72,7 @@ class App extends Component {
   addTodo(event){
     let options={
       title:event.target.value,
-      status:null,
+      status:'',
       deleted:false
     }
     let user=getCurrentUser()
@@ -116,6 +87,31 @@ class App extends Component {
       todoList:state.todoList,
       newTodo:''
     }))
+  }
+  render() {
+    let todos=this.state.todoList.filter((item,index)=>{return !item.deleted}).map((item,index)=>{
+      return (
+        <li key={index}>
+          <TodoItem todo={item} onToggle={this.toggle.bind(this)} onDeleted={this.deleted.bind(this)}/>
+        </li>
+      )
+    })
+    return (
+      <div className="App">
+         <h1>{this.state.user.userName||'我'}的待办小白板 {this.state.user?<button onClick={this.toSignOut.bind(this)}>登出</button>:null}</h1>
+         
+         <div className="inputWrapper">
+            <TodoInput content={this.state.newTodo} 
+            onChange={this.changeTitle.bind(this)}
+            onSubmit={this.addTodo.bind(this)} />
+         </div>
+         <ol className="todoList">
+           {todos}
+         </ol>
+         {this.state.user.id ? null:<UserDialog onSignUpOrOnSignIn={this.onSignUpOrOnSignIn.bind(this)}
+         loadUserList={this.loadUserList.bind(this)}/>}
+      </div>
+    );
   }
 }
 

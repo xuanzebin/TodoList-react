@@ -39,7 +39,15 @@ export default class UserDialog extends Component{
                 break
             }
         }
-        signUp(userName,passWord,Email,success,error)
+        console.log(userName,userName.length)
+        console.log(passWord,passWord.length)
+        if (userName.length<=3){
+            alert('注册失败，用户名的长度必须大于3位数')
+        } else if (passWord.length<6) {
+            alert('注册失败，密码长度必须不小于6位数')
+        } else {
+            signUp(userName,passWord,Email,success,error)
+        }
     }
     toSignIn(e){
         e.preventDefault()
@@ -86,8 +94,28 @@ export default class UserDialog extends Component{
         }))
     }
     toReset(e){
+        e.preventDefault()
         e.persist()
-        findPassWord(this.state.formDate.Email)
+        findPassWord(this.state.formDate.Email,(error)=>{
+            switch (error.code){
+                case 205:
+                alert('不存在与邮箱对应的用户，请检查您的邮箱地址~')
+                break
+                case 204:
+                alert('邮箱地址不能为空，请重新输入！')
+                break
+                case 1:
+                alert('服务器内部出错，请联系小屁进行修复！~')
+                break
+                default:
+                alert(error.code)
+                alert('发生未知错误，重置密码失败，请检查用户邮箱是否正确并重新尝试')
+                break
+            }
+        })
+        let stateCopy=copyState(this.state)
+        stateCopy.formDate.Email=''
+        this.setState(stateCopy)
     }
     render(){
         return(
