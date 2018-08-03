@@ -86,7 +86,6 @@ export default class UserDialog extends Component{
     }
     toReset(e){
         e.persist()
-        console.log(this.state.formDate.Email)
         findPassWord(this.state.formDate.Email)
     }
     render(){

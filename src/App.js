@@ -40,8 +40,6 @@ class App extends Component {
         </li>
       )
     })
-    console.log(this.state.todoList)
-    console.log(this.state)
     return (
       <div className="App">
          <h1>{this.state.user.userName||'阿屁'}一天要做的事情 {this.state.user?<button onClick={this.toSignOut.bind(this)}>登出</button>:null}</h1>
