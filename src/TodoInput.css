@@ -1,7 +1,12 @@
+.InputForm{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-bottom:1em;
+}
 .InputForm .TodoInput{
     width:70%;
     line-height:1.8;
-    margin-bottom:1em;
     font-size:16px;
     padding:0.2em;
 }

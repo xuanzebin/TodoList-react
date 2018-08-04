@@ -13,11 +13,13 @@
     color:#7F6F7C;
     font-weight:bold;
     font-size:20px;
+    word-break:normal; 
+    width:0; display:block; white-space:pre-wrap;word-wrap : break-word ;overflow: hidden ;
 }
 .TodoItem >button{
-    padding:0.5em;
+    padding:0.5em 0.7em;
     font-size: 16px;
-    border-radius:80%/70%;
+    border-radius:50%;
     outline: none;
     border:none;
     background: #EA5050;
