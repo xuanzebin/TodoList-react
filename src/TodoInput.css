@@ -1,5 +1,5 @@
 .InputForm .TodoInput{
-    width:75%;
+    width:70%;
     line-height:1.8;
     margin-bottom:1em;
     font-size:16px;
@@ -16,4 +16,5 @@
     color:white;
     font-weight:bold;
     background: #EA5050;
+    cursor: pointer;
 }

@@ -6,6 +6,8 @@ import 'normalize.css'
 import './reset.css'
 import UserDialog from './UserDialog'
 import {getCurrentUser, signOut, TodoModel} from './leanCloud'
+import IndividuaCenter from './IndividuaCenter'
+import './IndividuaCenter.css'
 class App extends Component {
   constructor(props){
     let getUser=getCurrentUser()
@@ -13,7 +15,8 @@ class App extends Component {
     this.state={
       user:getUser||{},
       todoList:[],
-      newTodo:''
+      newTodo:'',
+      individuaCenterShow:false
     }
     if (getUser) {
       TodoModel.FetchData(encodeUnicode(getUser['userName']),(array)=>{
@@ -33,13 +36,6 @@ class App extends Component {
         this.setState(stateCopy)
       })
     }
-  }
-  toSignOut(event){
-    signOut()
-    let stateCopy=copyState(this.state)
-    stateCopy.user={}
-    stateCopy.todoList=[]
-    this.setState(stateCopy)
   }
   onSignUpOrOnSignIn(user){
     let stateCopy=copyState(this.state)
@@ -79,8 +75,6 @@ class App extends Component {
     let userName=encodeUnicode(user['userName']) 
     TodoModel.SaveData(userName,options,(id)=>{
       options.id=id
-      console.log(id)
-      console.log(options)
     })
     this.state.todoList.push(options)
     this.setState((state,props)=>({
@@ -88,7 +82,43 @@ class App extends Component {
       newTodo:''
     }))
   }
+  toSignOut(event){
+    signOut()
+    // let stateCopy=copyState(this.state)
+    // stateCopy.user={}
+    // stateCopy.individuaCenterShow=false
+    // stateCopy.todoList=[]
+    // console.log(stateCopy)
+    // console.log(this.state)  
+    // this.setState(stateCopy)
+    this.state.user={}
+    this.state.individuaCenterShow=false
+    this.state.todoList=[]
+    this.setState(this.state)
+  }
+  individuaCentershow(e){
+    console.log(e.target)
+    e.stopPropagation()
+    this.state.individuaCenterShow=this.state.individuaCenterShow?false:true
+    console.log(33)
+    this.setState(this.state)
+  }
+  individuaCenterClose(e){
+    if(this.state.individuaCenterShow){
+      console.log(44)
+      this.state.individuaCenterShow=false
+      this.setState(this.state)
+    }
+  }
+  aboutMe(e){
+    this.state.individuaCenterShow=false
+    alert('若该应用有任何问题，欢迎邮件联系小屁:xuanzebin@126.com')
+    this.setState(this.state)
+  }
   render() {
+    console.log('更新')
+    console.log(2)
+    console.log(this.state)
     let todos=this.state.todoList.filter((item,index)=>{return !item.deleted}).map((item,index)=>{
       return (
         <li key={index}>
@@ -97,9 +127,14 @@ class App extends Component {
       )
     })
     return (
-      <div className="App">
-         <h2>{this.state.user.userName||'我'}的待办小白板 {this.state.user?
-         <button onClick={this.toSignOut.bind(this)}><div className="individuaCenter"></div></button>:null}</h2>
+      <div className="App" onClick={this.individuaCenterClose.bind(this)}>
+         <h2>{this.state.user.userName||'我'}的待办小白板 
+         <div className="individuaCenterWrapper" onClick={this.individuaCentershow.bind(this)}>
+            <div className="individuaCenter">
+                {this.state.individuaCenterShow?<IndividuaCenter onSubmit={this.toSignOut.bind(this)} 
+                about={this.aboutMe.bind(this)}/>:null}
+            </div>
+         </div></h2>
          <div className="inputWrapper">
             <TodoInput content={this.state.newTodo} 
             onChange={this.changeTitle.bind(this)}

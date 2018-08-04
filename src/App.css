@@ -13,19 +13,14 @@
 .App>h2{
   color:#FEDCAC;
   margin:20px;
+  position: relative;
 }
-.App>h2>button{
-  font-size: 16px;
-  border:none;
-}
-.App>h2>button .individuaCenter{
-  position: fixed;
-  top:35px;
-  right:20px;
+.App>h2 .individuaCenter{
+  position: relative;
   width:22px;
   border:2px #E44E4D solid;
 }
-.App>h2>button .individuaCenter::before{
+.App>h2 .individuaCenter::before{
   content:'';
   display: block;
   position:absolute;
@@ -35,7 +30,7 @@
   width:28px;
   border:2px #E44E4D solid;
 }
-.App>h2>button .individuaCenter::after{
+.App>h2 .individuaCenter::after{
   content:'';
   display: block;
   position:absolute;
@@ -44,6 +39,17 @@
   top:7px;
   width:28px;
   border:2px #E44E4D solid;
+}
+.App>h2 .individuaCenterWrapper{
+  position:absolute;
+  width:30px;
+  height:30px;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  top:5%;
+  right:0;
+  cursor: pointer;
 }
 .App>.todoList>li:nth-child(odd){
   background: #FFFFFF;
@@ -64,5 +70,15 @@
     min-width: 200px;
     width:100%;
     margin:0;
+  }
+  .App>h2 .individuaCenterWrapper{
+    position:fixed;
+    width:30px;
+    height:30px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    top:22px;
+    right:20px;
   }
 }
