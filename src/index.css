@@ -5,6 +5,7 @@ body {
   display: flex;
   justify-content: center;
   min-height: 100vh;
+  background-color: #FA4A4A;
 }
 *{
   transition:all 1s;

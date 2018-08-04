@@ -6,6 +6,7 @@
 .TodoItem input{
     width:22px;
     height:22px;
+    cursor: pointer;
 }
 .TodoItem>.title{
     flex-grow:1;
@@ -14,7 +15,12 @@
     font-weight:bold;
     font-size:20px;
     word-break:normal; 
-    width:0; display:block; white-space:pre-wrap;word-wrap : break-word ;overflow: hidden ;
+    width:0; 
+    display:block; 
+    white-space:pre-wrap;
+    word-wrap : break-word ;
+    overflow: hidden ;
+    cursor:default;
 }
 .TodoItem >button{
     padding:0.5em 0.7em;
@@ -25,4 +31,5 @@
     background: #EA5050;
     color:#FFFDFE;
     box-shadow: 0 0 0.3em rgba(131, 35, 35, 0.849);
+    cursor: pointer;
 }

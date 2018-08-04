@@ -1,6 +1,5 @@
 .App{
   color:#333;
-  border:1px solid #aaa;
   border-radius: 4px;
   background: white;
   margin:2em;
@@ -8,7 +7,7 @@
   min-height:20em;
   min-width:32em;
   background: #602A41;
-  box-shadow: 0 0 1em hsla(0,0%,0%,0.15);
+  box-shadow: 0 0 2em hsla(0,0%,0%,0.55);
 }
 .App>h2{
   color:#FEDCAC;
