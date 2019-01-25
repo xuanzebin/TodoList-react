@@ -6,6 +6,7 @@
 .TodoItem input{
     width:22px;
     height:22px;
+    margin:0.5em;
     cursor: pointer;
 }
 .TodoItem>.title{
@@ -32,4 +33,7 @@
     color:#FFFDFE;
     box-shadow: 0 0 0.3em rgba(131, 35, 35, 0.849);
     cursor: pointer;
+}
+.TodoItem >input {
+    transform: scale(1.5);
 }

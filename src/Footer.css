@@ -1,0 +1,22 @@
+.footer{
+    color:white;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.footer>.footerButton{
+    color:#2A3D51;
+    font-size:20px;
+    background: #ffffff;
+    height:2.8em;
+    cursor: pointer;
+    font-weight: bold;
+    width:30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin:10px;
+    margin-bottom:30px;
+    box-shadow: 0 0 9px 1px rgba(0,0,0,0.8);
+    border-radius:5px;
+}

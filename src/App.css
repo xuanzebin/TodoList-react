@@ -56,6 +56,9 @@
 .App>.todoList>li:nth-child(even){
   background: #F5F1F0;
 }
+.App>.todoList{
+  margin-bottom:20px;
+}
 .App .foreWord{
   background: #EA5050;
   color:#F7B994;

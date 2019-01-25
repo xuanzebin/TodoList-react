@@ -8,6 +8,7 @@ import UserDialog from './UserDialog'
 import {getCurrentUser, signOut, TodoModel} from './leanCloud'
 import IndividuaCenter from './IndividuaCenter'
 import './IndividuaCenter.css'
+import Footer from './Footer'
 class App extends Component {
   constructor(props){
     let getUser=getCurrentUser()
@@ -16,13 +17,29 @@ class App extends Component {
       user:getUser||{},
       todoList:[],
       newTodo:'',
-      individuaCenterShow:false
+      individuaCenterShow:false,
+      toggleAllShow:false
     }
     if (getUser) {
-      TodoModel.FetchData(encodeUnicode(getUser['userName']),(array)=>{
+      TodoModel.FetchData(encodeUnicode(getUser['userName']),(array,toggleAll)=>{
         let stateCopy=copyState(this.state)
         stateCopy.todoList=array
+        stateCopy.toggleAllShow=toggleAll
+        console.log('array',array)
+        console.log(toggleAll)
         this.setState(stateCopy)
+      })
+    }
+    this.clearTodoList=this.clearTodoList.bind(this)
+    this.toggleAll=this.toggleAll.bind(this)
+  }
+  clearTodoList(){
+    let getUser=getCurrentUser()
+    if (getUser) {
+      TodoModel.clearList(encodeUnicode(getUser['userName']),()=>{
+        this.setState({
+          todoList:[]
+        })
       })
     }
   }
@@ -53,8 +70,29 @@ class App extends Component {
     let user=getCurrentUser()
     let userName=encodeUnicode(user['userName']) 
     todo.status=todo.status==='completed'?'':'completed'
+    let toggleAll=false
+    this.state.todoList.forEach((value,index)=>{
+      if (value.status===''){
+        toggleAll=true
+      }
+    })
+    this.state.toggleAllShow=toggleAll
     this.setState(this.state)
     TodoModel.ModifyData(userName,todo.id,'status',todo.status)
+  }
+  toggleAll(event){
+    let user=getCurrentUser()
+    let userName=encodeUnicode(user['userName']) 
+    let stateCopy=copyState(this.state)
+    stateCopy.todoList.forEach((value,index)=>{
+      value.status=stateCopy.toggleAllShow?'completed':''
+      TodoModel.ModifyData(userName,value.id,'status',value.status)
+    })
+    stateCopy.toggleAllShow=!stateCopy.toggleAllShow
+    this.setState(stateCopy)
+    // todo.status=todo.status==='completed'?'':'completed'
+    // this.setState(this.state)
+    // TodoModel.ModifyData(userName,todo.id,'status',todo.status)
   }
   changeTitle(event) {
     event.persist()
@@ -84,13 +122,6 @@ class App extends Component {
   }
   toSignOut(event){
     signOut()
-    // let stateCopy=copyState(this.state)
-    // stateCopy.user={}
-    // stateCopy.individuaCenterShow=false
-    // stateCopy.todoList=[]
-    // console.log(stateCopy)
-    // console.log(this.state)  
-    // this.setState(stateCopy)
     this.state.user={}
     this.state.individuaCenterShow=false
     this.state.todoList=[]
@@ -144,6 +175,9 @@ class App extends Component {
          <ol className="todoList">
            {todos}
          </ol>
+         {/* <button onClick={this.clearTodoList}>clickMe</button>
+         <button onClick={this.toggleAll}>toggle</button> */}
+         <Footer clearTodoList={this.clearTodoList} toggleAll={this.toggleAll}></Footer>
          {this.state.user.id ? null:<UserDialog onSignUpOrOnSignIn={this.onSignUpOrOnSignIn.bind(this)}
          loadUserList={this.loadUserList.bind(this)}/>}
       </div>

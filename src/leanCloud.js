@@ -81,7 +81,11 @@ export const TodoModel={
   FetchData(userName,successFn){ 
     let query = new AV.Query(userName);
     query.find().then(function (todo) {
+      let toggleAll=true
       let array=todo.map((item)=>{
+        if (item.attributes.status==='completed') {
+          toggleAll=false
+        }
         return {
           id:item.id,
           status:item.attributes.status,
@@ -89,7 +93,21 @@ export const TodoModel={
           title:item.attributes.title
         }
       })
-      successFn.call(null,array)
+      successFn.call(null,array,toggleAll)
+    }, function (error) {
+      console.log(error)
+    });
+  },
+  clearList(userName,successFn){
+    let query = new AV.Query(userName);
+    query.find().then(function (todo) {
+      AV.Object.destroyAll(todo).then(function () {
+        // 成功
+        successFn()
+        console.log('清空成功')
+      }, function (error) {
+        // 异常处理
+      });
     }, function (error) {
       console.log(error)
     });
